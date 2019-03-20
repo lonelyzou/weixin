@@ -1,6 +1,7 @@
 const sha1 = require('sha1');
 const {getUserDataAsync , parseXMLData, formatJsData} = require('../utils/tools');
 const template = require('./template');
+const  handleResponse = require('./handleResponse')
 module.exports = ( ) =>{
     return async (req,res) =>{
         //微信服务器发送过来的请求参数
@@ -28,33 +29,12 @@ module.exports = ( ) =>{
             //处理用户发过来的信息，返回响应
             const xmlData =await getUserDataAsync(req);
             // 将xml数据转换为js对象
-            console.log(xmlData)
             const jsData = parseXMLData(xmlData);
             //进一步处理数据
             const newData = formatJsData(jsData);
             //实现自动回复
-            let option = {
-                 toUserName: newData.FromUserName,
-                 fromUserName: newData.ToUserName,
-                 createTime: Date.now(),
-                type : 'text',
-                content: '警告！警告！阁下语义不明，请重新输入指令'
-            }
-            if ( newData.Content === '啦啦啦') {
-                option.content = '我是卖报的小学生'
-            } else if (newData.Content && newData.Content.indexOf('珂朵莉') !== -1){
-                option.content = '世界上最幸福的女孩 \n is my'
-            }
-            if (newData.MsgType === 'image') {
-                //将用户发送的图片，返回回去
-                option.mediaId = newData.MediaId;
-                option.type = 'image';
-            }
-            if (newData.MsgType === 'vice') {
-                //将用户发送的语音，返回回去
-                option.mediaId = newData.MediaId;
-                option.type = 'vice';
-            }
+            const option = handleResponse(newData) ;
+            console.log(newData);
             const replyMessage = template(option);
             // console.log(replyMessage);
             //返回响应
