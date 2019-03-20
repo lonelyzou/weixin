@@ -14,7 +14,7 @@ const menu = {
                 {
                     "type":"view",  // 跳转到指定网址
                     "name":"官网",
-                    "url":"http://www.atguigu.com/"
+                    "url":"http://https://lonelyzou.github.io/GoblinWarehouse//"
                 },
                 {
                     "type": "scancode_waitmsg",
