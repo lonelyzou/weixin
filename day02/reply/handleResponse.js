@@ -1,5 +1,10 @@
 // 处理用户发送的消息，定义响应的数据
-
+// const userMassage = require('../wechat/index')
+// (async () => {
+//     let result3 = await userMassage("obgK81eg7hqjNuHYOHu58vfAG0eI");
+//     console.log('ooo');
+// })()
+// console.log('22');
 module.exports = (newData) =>{
     let option = {
         toUserName: newData.FromUserName,
@@ -51,7 +56,7 @@ module.exports = (newData) =>{
             option.content = '';
         } else if (newData.Event === 'CLICK'){
             // 用户点击菜单
-            options.content = '用户点击了菜单~';
+            option.content = '用户点击了菜单~';
         }
     }
     return option;
